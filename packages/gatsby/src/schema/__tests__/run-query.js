@@ -1,7 +1,9 @@
 const { store } = require(`../../redux`)
 const { actions } = require(`../../redux/actions`)
 const { getDataStore } = require(`../../datastore`)
-const { runFastFiltersAndSort } = require(`../../redux/run-fast-filters`)
+const {
+  runFastFiltersAndSort,
+} = require(`../../datastore/in-memory/run-fast-filters`)
 
 const makeNodesUneven = () => [
   // Note: This is assumed to be an uneven node count
@@ -333,7 +335,7 @@ async function runQuery(queryArgs, nodes = makeNodesUneven()) {
     filtersCache: new Map(),
   }
 
-  return runFastFiltersAndSort(args)
+  return Array.from(runFastFiltersAndSort(args).entries)
 }
 
 async function runQuery2(queryArgs) {

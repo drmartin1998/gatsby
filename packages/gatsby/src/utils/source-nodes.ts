@@ -2,12 +2,11 @@ import report from "gatsby-cli/lib/reporter"
 import { Span } from "opentracing"
 import apiRunner from "./api-runner-node"
 import { store } from "../redux"
-import { getNode, getNodes } from "../redux/nodes"
+import { getDataStore, getNode, getNodes } from "../datastore"
 import { actions } from "../redux/actions"
 import { IGatsbyState } from "../redux/types"
 const { deleteNode } = actions
 import { Node } from "../../index"
-import { getDataStore } from "../datastore"
 
 /**
  * Finds the name of all plugins which implement Gatsby APIs that
@@ -94,8 +93,8 @@ export default async ({
 }: {
   webhookBody: unknown
   pluginName?: string
-  parentSpan: Span
-  deferNodeMutation: boolean
+  parentSpan?: Span
+  deferNodeMutation?: boolean
 }): Promise<void> => {
   await apiRunner(`sourceNodes`, {
     traceId: `initial-sourceNodes`,

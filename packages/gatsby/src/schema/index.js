@@ -2,8 +2,7 @@
 
 const tracer = require(`opentracing`).globalTracer()
 const { store } = require(`../redux`)
-const { getNodesByType, getTypes } = require(`../redux/nodes`)
-const { getDataStore } = require(`../datastore`)
+const { getDataStore, getTypes } = require(`../datastore`)
 const { createSchemaComposer } = require(`./schema-composer`)
 const { buildSchema, rebuildSchemaWithSitePage } = require(`./schema`)
 const { builtInFieldExtensions } = require(`./extensions`)
@@ -66,7 +65,7 @@ const buildInferenceMetadata = ({ types }) =>
         type: `BUILD_TYPE_METADATA`,
         payload: {
           typeName,
-          nodes: getNodesByType(typeName),
+          nodes: getDataStore().iterateNodesByType(typeName),
         },
       })
       if (typeNames.length > 0) {
